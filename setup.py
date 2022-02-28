@@ -22,27 +22,12 @@ setuptools.setup(
         "Programming Language :: Python :: 3.6"
     ),
     install_requires=[
-        "anyascii==0.3.0",
-        "certifi==2021.5.30",
-        "charset-normalizer==2.0.12",
-        "contractions==0.0.25",
-        "docopt==0.6.2",
-        "emoji==1.6.3",
-        "idna==3.3",
-        "jieba==0.42.1",
-        "mecab-python3==0.996.5",
-        "mosestokenizer==1.2.1",
-        "openfile==0.0.7",
-        "pyahocorasick==1.4.4",
         "pycld2==0.41",
+        "mecab-python3==0.996.5",
+        "contractions==0.0.25",
+        "emoji==1.6.3",
+        "mosestokenizer==1.2.1",
+        "jieba==0.42.1",
         "pythainlp==2.3.2",
-        "python-crfsuite==0.9.7",
-        "requests==2.27.1",
-        "textsearch==0.0.21",
-        "tinydb==4.7.0",
-        "toolwrapper==2.1.0",
-        "typing_extensions==4.1.1",
-        "uctools==1.3.0",
-        "urllib3==1.26.8"
     ]
 )
