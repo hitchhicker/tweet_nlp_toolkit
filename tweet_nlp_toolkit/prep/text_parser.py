@@ -1,3 +1,6 @@
+"""
+Text parser.
+"""
 import re
 from typing import List
 
@@ -47,6 +50,7 @@ class ParsedText:
             emails_action=None,
             html_tags_action=None,
             stop_words_action=None):
+        """Process tokens."""
         for token in self.tokens:
             for action in [
                 Action(action_name=mentions_action, action_condition='is_mention'),
@@ -82,7 +86,7 @@ class ParsedText:
 
     @property
     def hashtags(self) -> List[str]:
-        return list(set([token.value.strip('#') for token in self._tokens if token.is_hashtag]))
+        return list({token.value.strip('#') for token in self._tokens if token.is_hashtag})
 
     @property
     def mentions(self) -> List[str]:

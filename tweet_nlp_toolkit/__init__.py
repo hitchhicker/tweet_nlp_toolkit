@@ -1,3 +1,4 @@
+# pylint: disable=unused-import,missing-docstring
 import os
 from os.path import dirname, abspath
 

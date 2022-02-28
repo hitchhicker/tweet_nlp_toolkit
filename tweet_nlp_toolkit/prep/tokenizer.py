@@ -1,3 +1,6 @@
+"""
+Tokenizers.
+"""
 import html
 import logging
 import re
@@ -33,11 +36,14 @@ THAI_CHARACTERS = frozenset(range(0x0E00, 0x0E80))
 
 
 class TwitterTokenizer:
-    def __init__(self, tokenizer='labs'):
+    """
+    Tokenizer for Twitter.
+    """
+    def __init__(self, tokenizer='social_media'):
         self._tokenizer = tokenizer
         if tokenizer == 'naive':
             self._tknzr = WhiteSpaceTokenizer()
-        elif tokenizer == 'labs':
+        elif tokenizer == 'social_media':
             self._tknzr = SocialMediaTokenizer()
         else:
             raise NotImplementedError(f"Unsupported tokenizer: {tokenizer}")
@@ -47,6 +53,9 @@ class TwitterTokenizer:
 
 
 class SocialMediaTokenizer:
+    """
+    Tokenizer for social media.
+    """
     def __init__(self):
         self.token_pipeline = [
             URL,
@@ -61,7 +70,7 @@ class SocialMediaTokenizer:
             EMOJI_STRING,
             WORD,
             r"\S"]
-        self.tokenizer = re.compile(r"%s" % ("|".join(self.token_pipeline)), re.UNICODE)
+        self.tokenizer = re.compile(fr'{"|".join(self.token_pipeline)}', re.UNICODE)
 
     def tokenize(self, text: str) -> List[str]:
         text = text.encode('utf-16', 'surrogatepass').decode('utf-16', "replace")
@@ -74,7 +83,7 @@ class WeiboTokenizer(SocialMediaTokenizer):
         super().__init__()
         hashtag_regex_index = self.token_pipeline.index(HASHTAG)
         self.token_pipeline[hashtag_regex_index] = WEIBO_HASHTAG
-        self.tokenizer = re.compile(r"(%s)" % ("|".join(self.token_pipeline)), re.UNICODE)
+        self.tokenizer = re.compile(rf'{"|".join(self.token_pipeline)}', re.UNICODE)
 
 
 class Detokenizer:

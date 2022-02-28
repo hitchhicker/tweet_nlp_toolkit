@@ -1,3 +1,6 @@
+"""
+Utils functions.
+"""
 import unicodedata
 
 from tweet_nlp_toolkit.constants import ENGLISH_STOP_WORDS, UNKNOWN_LANGUAGE, VARIATION_SELECTORS, PYCLD2_LANGUAGE_CODES
@@ -21,7 +24,7 @@ def get_stop_words(lang):
     if lang == 'en':
         return ENGLISH_STOP_WORDS
 
-    raise ValueError("unknown stop list: %s" % lang)
+    raise ValueError(f"unknown stop list: {lang}")
 
 
 def get_language(text, languages_set=PYCLD2_LANGUAGE_CODES):

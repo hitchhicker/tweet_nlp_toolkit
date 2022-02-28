@@ -1,24 +1,20 @@
+"""
+Text preprocessing.
+"""
 import codecs
 import logging
 import re
 
 import contractions
 
-
 from tweet_nlp_toolkit.prep.regexes import URL_PAT, QUOTES_PAT, RT_MENTION_PAT, APOSTROPHES_PAT
 from tweet_nlp_toolkit.prep.text_parser import parse_text
-
-"""
-Text preprocessing utils
-The goal is to allow using individual functions as required
-
-# TODO handle html entities &amp;
-# TODO improve pattern
-"""
 
 logger = logging.getLogger(__name__)
 
 
+# TODO handle html entities &amp;
+# TODO improve pattern
 def replace_contractions(text, lang='en'):
     """
     e.g.
@@ -54,11 +50,10 @@ def prep_file(filename, outfile, **kwargs):
     :param kwargs: arguments for the prep function
     :return:
     """
-    with codecs.open(filename, encoding='unicode_escape') as f:
-        outf = open(outfile, 'w')
-        for line in f.readlines():
-            outf.write(prep(line, encoding='utf-8', **kwargs) + '\n')
-        outf.close()
+    with codecs.open(filename, encoding='unicode_escape') as int_f:
+        with open(outfile, 'w', encoding="utf-8") as out_f:
+            for line in int_f.readlines():
+                out_f.write(prep(line, encoding='utf-8', **kwargs) + '\n')
 
 
 def normalize_apos(text, ):
@@ -83,5 +78,3 @@ def remove_rt_mention(text):
 
 def remove_url(text):
     return re.sub(URL_PAT, '', text)
-
-

@@ -1,3 +1,6 @@
+"""
+Token.
+"""
 import re
 import unicodedata
 
@@ -131,6 +134,9 @@ class Token:
 
 
 class Action:
+    """
+    Action to apply on the token.
+    """
     REPLACE_MAPPINGS = {
         'is_mention': MENTION_TAG,
         'is_hashtag': HASHTAG_TAG,

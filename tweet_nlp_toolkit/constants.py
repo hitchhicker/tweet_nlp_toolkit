@@ -1,3 +1,6 @@
+"""
+Global constants.
+"""
 import pycld2
 
 # The path for the statistics data

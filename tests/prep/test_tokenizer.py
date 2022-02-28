@@ -12,7 +12,7 @@ def test_default_init_tokenizer():
 
 def test_nltk_init_tokenizer():
     assert type(TwitterTokenizer(tokenizer='naive')._tknzr) == WhiteSpaceTokenizer
-    assert type(TwitterTokenizer(tokenizer='labs')._tknzr) == SocialMediaTokenizer
+    assert type(TwitterTokenizer(tokenizer='social_media')._tknzr) == SocialMediaTokenizer
 
 
 def test_error_init_tokenizer():

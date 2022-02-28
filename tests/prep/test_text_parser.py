@@ -1,7 +1,6 @@
 import pytest
 from pytest import fixture
 
-from tweet_nlp_toolkit.constants import ARABIC_LANGUAGE_CODE, ENGLISH_LANGUAGE_CODE, CHINESE_LANGUAGE_CODE
 from tweet_nlp_toolkit.prep.text_parser import ParsedText, parse_text
 from tweet_nlp_toolkit.prep.token import Token, WeiboToken
 from tweet_nlp_toolkit.prep.tokenizer import weibo_tokenize

@@ -20,6 +20,7 @@ _ltr_emoticon = [
 
     # eyes
     r"(?:(?<![a-zA-Z\(])[xXB](?![a-ce-oq-zA-CE-OQ-Z,\.\/])|(?<![:])[:=|](?![\.])|(?<![%#\d])[%#](?![%#\d])|(?<![\d\$])[$](?![\d\.,\$])|[;](?!\()|(?<![\d\(\-\+])8(?![\da-ce-zA-CE-Z\\/])|\*(?![\*\d,.]))",
+    # pylint: disable=line-too-long
 
     # optional tears
     r"(?:['\",])?",
@@ -43,7 +44,7 @@ _rtl_emoticon = [
 ]
 _LTR_FACE = "".join(_ltr_emoticon)
 _RTL_FACE = "".join(_rtl_emoticon)
-_EASTERN_EMOTICONS = r"(?<![\w])(?:(?:[<>]?[\^;][\W_m][\;^][;<>]?)|(?:[^\s()]?m?[\(][\W_oTOJ]{1,3}[\s]?[\W_oTOJ]{1,3}[)]m?[^\s()]?)|(?:\*?[v>\-\/\\][o0O\_\.][v\-<\/\\]\*?)|(?:[oO0>][\-_\/oO\.\\]{1,2}[oO0>])|(?:\^\^))(?![\w])"
+_EASTERN_EMOTICONS = r"(?<![\w])(?:(?:[<>]?[\^;][\W_m][\;^][;<>]?)|(?:[^\s()]?m?[\(][\W_oTOJ]{1,3}[\s]?[\W_oTOJ]{1,3}[)]m?[^\s()]?)|(?:\*?[v>\-\/\\][o0O\_\.][v\-<\/\\]\*?)|(?:[oO0>][\-_\/oO\.\\]{1,2}[oO0>])|(?:\^\^))(?![\w])"  # pylint: disable=line-too-long
 _REST_EMOTICONS = r"(?<![A-Za-z0-9/()])(?:(?:\^5)|(?:\<3))(?![[A-Za-z0-9/()])"
 EMOTICONS = '|'.join([_LTR_FACE, _RTL_FACE, _EASTERN_EMOTICONS, _REST_EMOTICONS])
 EMAIL = r"(?:^|(?<=[^\w@.)]))(?:[\w+-](?:\.(?!\.))?)*?[\w+-]@(?:\w-?)*?\w+(?:\.(?:[a-z]{2,})){1,3}(?:$|(?=\b))"
@@ -61,4 +62,3 @@ QUOTES_PAT = re.compile("[“”«»]")
 APOSTROPHES_PAT = re.compile("[‘’]")
 URL_PAT = re.compile(URL)
 RT_MENTION_PAT = re.compile(r'^RT ' + MENTION + ': ')
-

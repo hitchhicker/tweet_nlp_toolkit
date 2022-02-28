@@ -22,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 def segment(language: str, text: str) -> str:
+    """Segment asian languages."""
     if language is None:
         raise ValueError(f'language is not specified! expected one of {SUPPORTED_LANGUAGES}')
     if text is None:
