@@ -9,6 +9,7 @@ Usage Example:
 """
 import logging
 from abc import abstractmethod
+from typing import Dict, Type
 
 import MeCab
 import jieba
@@ -42,7 +43,7 @@ def _get_segmentation_tool(language: str):
 
     :return: SegmentationTool instance
     """
-    segmentation_tools = {
+    segmentation_tools: Dict[str, Type[AbstractSegmentationTool]] = {
         JAPANESE_LANGUAGE_CODE: JapaneseSegmentationTool,
         CHINESE_LANGUAGE_CODE: ChineseSegmentationTool,
         THAI_LANGUAGE_CODE: ThaiSegmentationTool
@@ -51,7 +52,7 @@ def _get_segmentation_tool(language: str):
 
 
 class Singleton(type):
-    _instances = {}
+    _instances: Dict = {}
 
     def __call__(cls, *args, **kwargs):
         if cls not in cls._instances:

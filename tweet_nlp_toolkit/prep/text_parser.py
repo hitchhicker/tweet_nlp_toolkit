@@ -2,7 +2,7 @@
 Text parser.
 """
 import re
-from typing import List
+from typing import List, Optional
 
 from tweet_nlp_toolkit.constants import UNENCODABLE_CHAR
 from tweet_nlp_toolkit.prep.tokenizer import social_media_tokenize
@@ -17,7 +17,7 @@ class ParsedText:
     def __init__(self, tokens: List[Token], split: str = ' '):
         self._split = split
         self._tokens = tokens
-        self._value = None  # text in str
+        self._value: Optional[str] = None  # text in str
 
     def __repr__(self):
         return str([str(token) for token in self._tokens])

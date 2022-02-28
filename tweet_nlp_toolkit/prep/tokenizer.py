@@ -192,9 +192,11 @@ def weibo_tokenize(text: str, segment_hashtag=False) -> List[WeiboToken]:
             output.append(token)
         elif token.is_hashtag:
             if segment_hashtag:
-                output.extend([WeiboToken('#')] + chinese_tokenize(token.value[1:-1]) + [WeiboToken('#')])
+                output.append(WeiboToken('#'))
+                output.extend(list(map(lambda x: WeiboToken(str(x)), chinese_tokenize(token.value[1:-1]))))
+                output.append(WeiboToken('#'))
             else:
                 output.append(token)
         else:
-            output.extend(chinese_tokenize(token.value))
+            output.extend(list(map(lambda x: WeiboToken(str(x)), chinese_tokenize(token.value))))
     return output

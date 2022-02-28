@@ -1,6 +1,6 @@
 import pytest
 
-from tweet_nlp_toolkit.prep.token import Token
+from tweet_nlp_toolkit.prep.token import Token, WeiboToken
 from tweet_nlp_toolkit.prep.tokenizer import TwitterTokenizer, white_space_tokenize, \
     SocialMediaTokenizer, WhiteSpaceTokenizer, social_media_tokenize, Detokenizer, chinese_tokenize, japanese_tokenize, \
     _is_chinese, _is_japanese, thai_tokenize, _is_thai, weibo_tokenize
@@ -152,4 +152,4 @@ def test_white_space_tokenize_return_type():
 
 
 def test_weibo_tokenize_return_type():
-    assert type(weibo_tokenize("unit test")[0]) == Token
+    assert type(weibo_tokenize("unit test")[0]) == WeiboToken
