@@ -5,6 +5,7 @@ import re
 import unicodedata
 
 import emoji
+from emoji import EMOJI_ALIAS_UNICODE_ENGLISH, UNICODE_EMOJI_ENGLISH
 
 from tweet_nlp_toolkit.constants import (
     MENTION_TAG,
@@ -113,7 +114,7 @@ class Token:
     @property
     def is_emoji(self):
         # emoji in unicode representation or textual representation
-        return self.value in emoji.UNICODE_EMOJI or self.value in emoji.EMOJI_ALIAS_UNICODE
+        return self.value in UNICODE_EMOJI_ENGLISH or self.value in EMOJI_ALIAS_UNICODE_ENGLISH
 
     @property
     def is_digit(self):

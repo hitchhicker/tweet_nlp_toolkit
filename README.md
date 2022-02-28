@@ -1,3 +1,5 @@
+![ci](https://github.com/hitchhicker/tweet_nlp_toolkit/actions/workflows/makefile.yml/badge.svg)
+
 # tweet_nlp_toolkit
 Tweet NLP toolkit
 ## Installation
