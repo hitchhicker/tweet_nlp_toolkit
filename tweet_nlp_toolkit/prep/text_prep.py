@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 # TODO handle html entities &amp;
 # TODO improve pattern
-def replace_contractions(text, lang='en'):
+def replace_contractions(text, lang="en"):
     """
     e.g.
     ima    -> I am going to
@@ -26,7 +26,7 @@ def replace_contractions(text, lang='en'):
     :param lang: the language to handle. Only English is supported.
     :return:
     """
-    if lang != 'en':
+    if lang != "en":
         logger.warning("Contractions fix is currently only supporting English. Not changing the text")
         return text
 
@@ -50,31 +50,33 @@ def prep_file(filename, outfile, **kwargs):
     :param kwargs: arguments for the prep function
     :return:
     """
-    with codecs.open(filename, encoding='unicode_escape') as int_f:
-        with open(outfile, 'w', encoding="utf-8") as out_f:
+    with codecs.open(filename, encoding="unicode_escape") as int_f:
+        with open(outfile, "w", encoding="utf-8") as out_f:
             for line in int_f.readlines():
-                out_f.write(prep(line, encoding='utf-8', **kwargs) + '\n')
+                out_f.write(prep(line, encoding="utf-8", **kwargs) + "\n")
 
 
-def normalize_apos(text, ):
-    """ Normalize single quotes / apostrophes to a unique type """
+def normalize_apos(
+    text,
+):
+    """Normalize single quotes / apostrophes to a unique type"""
     return re.sub(APOSTROPHES_PAT, "'", text)
 
 
 def normalize_quotes(text):
-    """ Normalize double quotes to a unique type """
+    """Normalize double quotes to a unique type"""
     return re.sub(QUOTES_PAT, '"', text)
 
 
 def remove_redundant_spaces(text):
-    return re.sub(r'[ \t]{2,}', ' ', text).strip()
+    return re.sub(r"[ \t]{2,}", " ", text).strip()
 
 
 def remove_rt_mention(text):
     """Remove RT followed by a mention (e.g. RT @BentheFidler:).
-    This format is used to mark retweets with no comments """
-    return re.sub(RT_MENTION_PAT, '', text)
+    This format is used to mark retweets with no comments"""
+    return re.sub(RT_MENTION_PAT, "", text)
 
 
 def remove_url(text):
-    return re.sub(URL_PAT, '', text)
+    return re.sub(URL_PAT, "", text)

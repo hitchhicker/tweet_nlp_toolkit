@@ -6,10 +6,28 @@ import unicodedata
 
 import emoji
 
-from tweet_nlp_toolkit.constants import MENTION_TAG, HASHTAG_TAG, URL_TAG, DIGIT_TAG, EMOJI_TAG, EMOTICON_TAG, \
-    PUNCTUATION_TAG, EMAIL_TAG, UNKNOWN_LANGUAGE
-from tweet_nlp_toolkit.prep.regexes import NOT_A_HASHTAG, HASHTAG, MENTION, EMOTICONS, EMAIL, DIGIT, HTML_TAG, URL, \
-    WEIBO_HASHTAG
+from tweet_nlp_toolkit.constants import (
+    MENTION_TAG,
+    HASHTAG_TAG,
+    URL_TAG,
+    DIGIT_TAG,
+    EMOJI_TAG,
+    EMOTICON_TAG,
+    PUNCTUATION_TAG,
+    EMAIL_TAG,
+    UNKNOWN_LANGUAGE,
+)
+from tweet_nlp_toolkit.prep.regexes import (
+    NOT_A_HASHTAG,
+    HASHTAG,
+    MENTION,
+    EMOTICONS,
+    EMAIL,
+    DIGIT,
+    HTML_TAG,
+    URL,
+    WEIBO_HASHTAG,
+)
 from tweet_nlp_toolkit.utils import get_stop_words
 
 
@@ -17,7 +35,8 @@ class Token:
     """
     A string like Token class
     """
-    __name__ = 'Token'
+
+    __name__ = "Token"
 
     def __init__(self, value, lang=None):
         super().__init__()
@@ -51,7 +70,7 @@ class Token:
     def _check_flag(self, pattern):
         print(self._value)
         print(type(self._value))
-        return re.match(re.compile('^' + pattern + '$'), self._value) is not None
+        return re.match(re.compile("^" + pattern + "$"), self._value) is not None
 
     def do_action(self, action):
         return action.apply(self)
@@ -139,43 +158,44 @@ class Action:
     """
     Action to apply on the token.
     """
+
     REPLACE_MAPPINGS = {
-        'is_mention': MENTION_TAG,
-        'is_hashtag': HASHTAG_TAG,
-        'is_url': URL_TAG,
-        'is_digit': DIGIT_TAG,
-        'is_emoji': EMOJI_TAG,
-        'is_emoticon': EMOTICON_TAG,
-        'is_punct': PUNCTUATION_TAG,
-        'is_email': EMAIL_TAG
+        "is_mention": MENTION_TAG,
+        "is_hashtag": HASHTAG_TAG,
+        "is_url": URL_TAG,
+        "is_digit": DIGIT_TAG,
+        "is_emoji": EMOJI_TAG,
+        "is_emoticon": EMOTICON_TAG,
+        "is_punct": PUNCTUATION_TAG,
+        "is_email": EMAIL_TAG,
     }
     ACTION_MAPPING = {
-        'is_mention': ['remove', 'tag'],
-        'is_hashtag': ['remove', 'tag'],
-        'is_url': ['remove', 'tag'],
-        'is_digit': ['remove', 'tag'],
-        'is_emoji': ['remove', 'tag', 'demojize', 'emojize'],
-        'is_emoticon': ['remove', 'tag'],
-        'is_punct': ['remove', 'tag'],
-        'is_email': ['remove', 'tag'],
-        'is_html_tag': ['remove'],
-        'is_stop_word': ['remove']
+        "is_mention": ["remove", "tag"],
+        "is_hashtag": ["remove", "tag"],
+        "is_url": ["remove", "tag"],
+        "is_digit": ["remove", "tag"],
+        "is_emoji": ["remove", "tag", "demojize", "emojize"],
+        "is_emoticon": ["remove", "tag"],
+        "is_punct": ["remove", "tag"],
+        "is_email": ["remove", "tag"],
+        "is_html_tag": ["remove"],
+        "is_stop_word": ["remove"],
     }
 
     def __init__(self, action_name, action_condition, **params):
         self._action_name = action_name
         self._action_method_choices = {
-            'remove': self._remove,
-            'tag': self._tag,
-            'demojize': self._demojize,
-            'emojize': self._emojize
+            "remove": self._remove,
+            "tag": self._tag,
+            "demojize": self._demojize,
+            "emojize": self._emojize,
         }
         self._action_condition = action_condition
         self._params = params
 
     @staticmethod
     def _remove(token: Token):
-        token.value = ''
+        token.value = ""
 
     def _tag(self, token: Token):
         token.value = self.REPLACE_MAPPINGS[self._action_condition]
@@ -189,14 +209,20 @@ class Action:
         token.value = emoji.emojize(token.value, use_aliases=True)
 
     def _is_valid_action(self, token_obj):
-        if self._action_name is None or len(self._action_name) == 0 or self._action_condition is None or len(
-                self._action_condition) == 0:
+        """Check if action is valid."""
+        if (
+            self._action_name is None
+            or len(self._action_name) == 0
+            or self._action_condition is None
+            or len(self._action_condition) == 0
+        ):
             return False
         if not hasattr(token_obj, self._action_condition):
             raise ValueError(f"{token_obj.__class__.__name__} doesn't has attribute {self._action_condition}")
         if self._action_name not in self.ACTION_MAPPING[self._action_condition]:
             raise ValueError(
-                f"unknown action '{self._action_name}', expected {self.ACTION_MAPPING[self._action_condition]}")
+                f"unknown action '{self._action_name}', expected {self.ACTION_MAPPING[self._action_condition]}"
+            )
         return True
 
     def apply(self, token: Token):

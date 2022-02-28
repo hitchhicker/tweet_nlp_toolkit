@@ -21,22 +21,22 @@ def strip_accents_unicode(text):
 
 
 def get_stop_words(lang):
-    if lang == 'en':
+    if lang == "en":
         return ENGLISH_STOP_WORDS
 
     raise ValueError(f"unknown stop list: {lang}")
 
 
 def get_language(text, languages_set=PYCLD2_LANGUAGE_CODES):
-    lang = pycld2.detect(''.join([i for i in text if i.isprintable()]), bestEffort=True)[2][0][1]
+    lang = pycld2.detect("".join([i for i in text if i.isprintable()]), bestEffort=True)[2][0][1]
     return UNKNOWN_LANGUAGE if lang not in languages_set else lang
 
 
 # The following function is copied from https://github.com/bfelbo/DeepMoji/blob/master/deepmoji/filter_utils.py#L128
 def remove_variation_selectors(text):
-    """ Remove styling glyph variants for Unicode characters.
-        For instance, remove skin color from emojis.
+    """Remove styling glyph variants for Unicode characters.
+    For instance, remove skin color from emojis.
     """
     for var in VARIATION_SELECTORS:
-        text = text.replace(var, u'')
+        text = text.replace(var, "")
     return text

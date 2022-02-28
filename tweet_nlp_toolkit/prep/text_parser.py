@@ -12,9 +12,10 @@ from tweet_nlp_toolkit.utils import strip_accents_unicode, remove_variation_sele
 
 class ParsedText:
     """Parsed Text"""
-    __name__ = 'ParsedText'
 
-    def __init__(self, tokens: List[Token], split: str = ' '):
+    __name__ = "ParsedText"
+
+    def __init__(self, tokens: List[Token], split: str = " "):
         self._split = split
         self._tokens = tokens
         self._value: Optional[str] = None  # text in str
@@ -39,30 +40,31 @@ class ParsedText:
         self._tokens[key].value = value
 
     def process(
-            self,
-            mentions_action=None,
-            hashtags_action=None,
-            urls_action=None,
-            digits_action=None,
-            emojis_action=None,
-            emoticons_action=None,
-            puncts_action=None,
-            emails_action=None,
-            html_tags_action=None,
-            stop_words_action=None):
+        self,
+        mentions_action=None,
+        hashtags_action=None,
+        urls_action=None,
+        digits_action=None,
+        emojis_action=None,
+        emoticons_action=None,
+        puncts_action=None,
+        emails_action=None,
+        html_tags_action=None,
+        stop_words_action=None,
+    ):
         """Process tokens."""
         for token in self.tokens:
             for action in [
-                Action(action_name=mentions_action, action_condition='is_mention'),
-                Action(action_name=hashtags_action, action_condition='is_hashtag'),
-                Action(action_name=urls_action, action_condition='is_url'),
-                Action(action_name=digits_action, action_condition='is_digit'),
-                Action(action_name=emojis_action, action_condition='is_emoji'),
-                Action(action_name=emoticons_action, action_condition='is_emoticon'),
-                Action(action_name=puncts_action, action_condition='is_punct'),
-                Action(action_name=emails_action, action_condition='is_email'),
-                Action(action_name=stop_words_action, action_condition='is_stop_word'),
-                Action(action_name=html_tags_action, action_condition='is_html_tag')
+                Action(action_name=mentions_action, action_condition="is_mention"),
+                Action(action_name=hashtags_action, action_condition="is_hashtag"),
+                Action(action_name=urls_action, action_condition="is_url"),
+                Action(action_name=digits_action, action_condition="is_digit"),
+                Action(action_name=emojis_action, action_condition="is_emoji"),
+                Action(action_name=emoticons_action, action_condition="is_emoticon"),
+                Action(action_name=puncts_action, action_condition="is_punct"),
+                Action(action_name=emails_action, action_condition="is_email"),
+                Action(action_name=stop_words_action, action_condition="is_stop_word"),
+                Action(action_name=html_tags_action, action_condition="is_html_tag"),
             ]:
                 if token.do_action(action):
                     break
@@ -70,7 +72,7 @@ class ParsedText:
 
     def post_process(self):
         text = self.value
-        text = re.sub(r'\s+', ' ', text)  # get rid of redundant spaces
+        text = re.sub(r"\s+", " ", text)  # get rid of redundant spaces
         text = text.strip()
         self._value = text
 
@@ -86,7 +88,7 @@ class ParsedText:
 
     @property
     def hashtags(self) -> List[str]:
-        return list({token.value.strip('#') for token in self._tokens if token.is_hashtag})
+        return list({token.value.strip("#") for token in self._tokens if token.is_hashtag})
 
     @property
     def mentions(self) -> List[str]:
@@ -113,24 +115,26 @@ class ParsedText:
         return [token.value for token in self._tokens if token.is_url]
 
 
-def parse_text(text,
-               tokenizer=social_media_tokenize,
-               encoding='utf-8',
-               remove_unencodable_char=False,
-               to_lower=True,
-               strip_accents=True,
-               reduce_len=False,
-               filters=None,
-               emojis=None,
-               mentions=None,
-               hashtags=None,
-               urls=None,
-               digits=None,
-               emoticons=None,
-               puncts=None,
-               emails=None,
-               html_tags=None,
-               stop_words=None):
+def parse_text(
+    text,
+    tokenizer=social_media_tokenize,
+    encoding="utf-8",
+    remove_unencodable_char=False,
+    to_lower=True,
+    strip_accents=True,
+    reduce_len=False,
+    filters=None,
+    emojis=None,
+    mentions=None,
+    hashtags=None,
+    urls=None,
+    digits=None,
+    emoticons=None,
+    puncts=None,
+    emails=None,
+    html_tags=None,
+    stop_words=None,
+):
     """
     Preprocess the text
 
@@ -182,11 +186,11 @@ def parse_text(text,
     if filters is None:
         filters = {}
     if encoding is not None:
-        text = text.encode(encoding, 'surrogatepass').decode(encoding, "replace")
+        text = text.encode(encoding, "surrogatepass").decode(encoding, "replace")
         if remove_unencodable_char:
-            text = text.replace(UNENCODABLE_CHAR, ' ')
+            text = text.replace(UNENCODABLE_CHAR, " ")
         else:  # change any sequence of unknown characters to a single one
-            text = re.sub(UNENCODABLE_CHAR + '{2,}', UNENCODABLE_CHAR, text)
+            text = re.sub(UNENCODABLE_CHAR + "{2,}", UNENCODABLE_CHAR, text)
     if to_lower:
         text = text.lower()
     if strip_accents:
@@ -197,9 +201,9 @@ def parse_text(text,
     text = remove_variation_selectors(text)
 
     # separate URL from attached previous word e.g. asylum seeker:http://t.co/skU8zM7Slh
-    text = re.sub(r'([^ ])(https?://)', r'\1 \2', text)
+    text = re.sub(r"([^ ])(https?://)", r"\1 \2", text)
 
-    text = re.sub(r'(\w+)\?(\w+)', r"\g<1>'\g<2>", text)  # c?est -> c'est
+    text = re.sub(r"(\w+)\?(\w+)", r"\g<1>'\g<2>", text)  # c?est -> c'est
     tokens = [tk for tk in tokenizer(text) if tk not in filters]
     text = ParsedText(tokens=tokens)
     text.process(
@@ -212,7 +216,7 @@ def parse_text(text,
         puncts_action=puncts,
         emails_action=emails,
         stop_words_action=stop_words,
-        html_tags_action=html_tags
+        html_tags_action=html_tags,
     )
     text.post_process()
     return text
