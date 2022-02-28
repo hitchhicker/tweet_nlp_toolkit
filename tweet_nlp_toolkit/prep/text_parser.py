@@ -2,7 +2,7 @@
 Text parser.
 """
 import re
-from typing import List, Optional
+from typing import List, Optional, Callable, Set
 
 from tweet_nlp_toolkit.constants import UNENCODABLE_CHAR
 from tweet_nlp_toolkit.prep.tokenizer import social_media_tokenize
@@ -116,24 +116,24 @@ class ParsedText:
 
 
 def parse_text(
-    text,
-    tokenizer=social_media_tokenize,
-    encoding="utf-8",
-    remove_unencodable_char=False,
-    to_lower=True,
-    strip_accents=True,
-    reduce_len=False,
-    filters=None,
-    emojis=None,
-    mentions=None,
-    hashtags=None,
-    urls=None,
-    digits=None,
-    emoticons=None,
-    puncts=None,
-    emails=None,
-    html_tags=None,
-    stop_words=None,
+    text: str,
+    tokenizer: Callable[[str], List[Token]] = social_media_tokenize,
+    encoding: str = "utf-8",
+    remove_unencodable_char: bool = False,
+    to_lower: bool = True,
+    strip_accents: bool = True,
+    reduce_len: bool = False,
+    filters: Optional[Set[str]] = None,
+    emojis: Optional[str] = None,
+    mentions: Optional[str] = None,
+    hashtags: Optional[str] = None,
+    urls: Optional[str] = None,
+    digits: Optional[str] = None,
+    emoticons: Optional[str] = None,
+    puncts: Optional[str] = None,
+    emails: Optional[str] = None,
+    html_tags: Optional[str] = None,
+    stop_words: Optional[str] = None,
 ):
     """
     Preprocess the text
@@ -141,7 +141,7 @@ def parse_text(
     Example:
         In [1]: from tweet_nlp_toolkit.prep.text_parser import parse_text
 
-        In [2]: text = parse_text("@hello #world")
+        In [2]: text = parse_text("123 @hello #world www.url.com 😰 :) abc@gmail.com")
 
         In [3]: text.tokens
         Out[3]: ['@hello', '#world']
@@ -155,10 +155,9 @@ def parse_text(
         In [6]: text.value
         Out[6]: '@hello #world'
 
-    :param text: the text to preprocess
-    :param tokenizer: callable
-    :param token_cls: Token wrapper class, Token or its derived class
-    :param encoding: the encoding of the text
+    :param text: string, the text to preprocess
+    :param tokenizer: Callable[[str], List[Token]], optional
+    :param encoding: the encoding of the text, default to "utf-8"
     :param remove_unencodable_char: in case of encoding error of a character it is replaced with '�'.
     This option allows removing the '�'. Otherwise a sequence of '�' is replaced by a single one
     :param to_lower: whether to convert the text to lowercase
@@ -184,7 +183,7 @@ def parse_text(
     """
     # TODO: check all parameters
     if filters is None:
-        filters = {}
+        filters = set()
     if encoding is not None:
         text = text.encode(encoding, "surrogatepass").decode(encoding, "replace")
         if remove_unencodable_char:
@@ -205,8 +204,8 @@ def parse_text(
 
     text = re.sub(r"(\w+)\?(\w+)", r"\g<1>'\g<2>", text)  # c?est -> c'est
     tokens = [tk for tk in tokenizer(text) if tk not in filters]
-    text = ParsedText(tokens=tokens)
-    text.process(
+    parsed_text = ParsedText(tokens=tokens)
+    parsed_text.process(
         mentions_action=mentions,
         hashtags_action=hashtags,
         urls_action=urls,
@@ -218,8 +217,8 @@ def parse_text(
         stop_words_action=stop_words,
         html_tags_action=html_tags,
     )
-    text.post_process()
-    return text
+    parsed_text.post_process()
+    return parsed_text
 
 
 def reduce_lengthening(text):

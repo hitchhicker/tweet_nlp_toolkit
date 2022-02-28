@@ -69,8 +69,6 @@ class Token:
         self._value[key] = value
 
     def _check_flag(self, pattern):
-        print(self._value)
-        print(type(self._value))
         return re.match(re.compile("^" + pattern + "$"), self._value) is not None
 
     def do_action(self, action):
