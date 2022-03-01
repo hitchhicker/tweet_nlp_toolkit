@@ -18,9 +18,10 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url=about['__url__'],
     packages=setuptools.find_packages(exclude=["tests.*", "tests"]),
-    classifiers=(
+    classifiers=[
+        "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python :: 3.6"
-    ),
+    ],
     install_requires=[
         "pycld2==0.41",
         "mecab-python3==0.996.5",
