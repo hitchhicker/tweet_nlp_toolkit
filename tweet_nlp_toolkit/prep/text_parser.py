@@ -155,31 +155,106 @@ def parse_text(
         In [6]: text.value
         Out[6]: '@hello #world'
 
-    :param text: string, the text to preprocess
-    :param tokenizer: Callable[[str], List[Token]], optional
-    :param encoding: the encoding of the text, default to "utf-8"
-    :param remove_unencodable_char: in case of encoding error of a character it is replaced with '�'.
-    This option allows removing the '�'. Otherwise a sequence of '�' is replaced by a single one
-    :param to_lower: whether to convert the text to lowercase
-    :param strip_accents: whether to remove accents from latin characters
-    :param reduce_len: whether to remove repeated character sequences
-    :param filters: the set of token to filter (case sensitive)
-    :param emojis: how to handle emojis. Default: no special treatment.
-    Options: - 'remove': delete all emojis
-             - 'tag': replaces the emoji by a tag <EMOJI>
-             - 'demojize': replaces the emoji by its textual representation, e.g. :musical_keyboard:
+    Parameters
+    ----------
+    text: str
+        The text to preprocess.
+    tokenizer: Callable[[str], List[Token]]
+        Tokenizer
+    encoding: str
+        The encoding of the text.
+        Default "utf-8".
+    remove_unencodable_char: bool
+        In case of encoding error of a character it is replaced with '�'. This option allows removing the '�'.
+        Otherwise a sequence of '�' is replaced by a single one
+        Default False
+    to_lower: bool
+        Whether to convert the text to lowercase.
+        Default True
+    strip_accents: bool
+        Whether to remove accents from latin characters.
+        Default True
+    reduce_len: bool
+        Whether to remove repeated character sequences.
+        Default False
+    filters: set
+        Tokens to filter (case sensitive).
+        Default None
+    emojis: Optional[str]
+        How to handle emojis.
+        Options:
+            - "remove": remove all emojis
+            - "tag": replaces the emoji by a tag <EMOJI>
+            - "demojize": replaces the emoji by its textual representation, e.g. :musical_keyboard:
                 list of emojis: https://www.webfx.com/tools/emoji-cheat-sheet/
-             - 'emojize: replaces the emoji by its unicode representation, e.g. 😰
-    :param hashtags: how to treat hashtags. Options: remove/tag (similar behavior as for emojis).
-    :param urls: how to treat hashtags. Options: remove/tag
-    :param mentions: how to treat mentions. Options: remove/tag
-    :param digits: how to treat digits. Options: remove/tag
-    :param emoticons: how to treat emoticons. Options: remove/tag
-    :param puncts: how to treat puncts. Options: remove/tag
-    :param emails: how to treat emails. Options: remove/tag
-    :param html_tags: how to treat html tags. Options: remove
-    :param stop_words: how to treat stop words. Options: remove
-    :return: a ParsedText instance
+            - "emojize": replaces the emoji by its unicode representation, e.g. 😰
+        Default None
+    hashtags: Optional[str]
+        How to handle hashtags.
+        Options:
+            - "remove": delete all hashtags
+            - "tag"replaces the hashtag by a tag <HASHTAG>
+        Default None
+    urls: Optional[str]
+        How to handle urls.
+        Options:
+            - "remove": delete all urls
+            - "tag"replaces the url by a tag <URL>
+        Default None
+    mentions: Optional[str]
+        How to handle mentions.
+        Options:
+            - "remove": delete all mentions
+            - "tag"replaces the mention by a tag <MENTION>
+        Default None
+    digits: Optional[str]
+        How to handle digits.
+        Options:
+            - "remove": delete all digits
+            - "tag"replaces the digit by a tag <DIGIT>
+        Default None
+    emoticons: Optional[str]
+        How to handle emoticons.
+        Options:
+            - "remove": delete all emoticons
+            - "tag"replaces the emoticon by a tag <EMOTICON>
+        Default None
+    puncts: Optional[str]
+        How to handle puncts.
+        Options:
+            - "remove": delete all puncts
+            - "tag"replaces the puncts by a tag <PUNCT>
+        Default None
+    emails: Optional[str]
+        How to handle puncts.
+        Options:
+            - "remove": delete all emails
+            - "tag"replaces the emails by a tag <EMAIL>
+        Default None
+    html_tags: Optional[str]
+        How to handle HTML tags like <div>.
+        Options:
+            - "remove": delete all HTML tags
+        Default None
+    html_tags: Optional[str]
+        How to handle HTML tags like <div>.
+        Options:
+            - "remove": delete all HTML tags
+        Default None
+    stop_words: Optional[str]
+        How to handle stop words.
+        Options:
+            - "remove": delete all HTML tags
+        Default None
+    stop_words
+        How to handle stop words. Only English stop words are supported
+        Options:
+            - "remove"
+        Default None
+
+    Returns
+    -------
+        A ParsedText instance.
     """
     # TODO: check all parameters
     if filters is None:

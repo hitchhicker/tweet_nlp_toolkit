@@ -24,7 +24,7 @@ def get_stop_words(lang):
     if lang == "en":
         return ENGLISH_STOP_WORDS
 
-    raise ValueError(f"unknown stop list: {lang}")
+    raise ValueError(f"Unknown stop list: {lang}")
 
 
 def get_language(text, languages_set=PYCLD2_LANGUAGE_CODES):
