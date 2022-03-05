@@ -181,16 +181,9 @@ class Action:
         "is_stop_word": ["remove"],
     }
 
-    def __init__(self, action_name, action_condition, **params):
+    def __init__(self, action_name, action_condition):
         self._action_name = action_name
-        self._action_method_choices = {
-            "remove": self._remove,
-            "tag": self._tag,
-            "demojize": self._demojize,
-            "emojize": self._emojize,
-        }
         self._action_condition = action_condition
-        self._params = params
 
     @staticmethod
     def _remove(token: Token):
@@ -231,7 +224,9 @@ class Action:
         :return: bool, Is the action applied on token
         """
         if self._is_valid_action(token) and token.get_attr(self._action_condition):
-            self._action_method_choices[self._action_name](token, **self._params)
+            {"remove": self._remove, "tag": self._tag, "demojize": self._demojize, "emojize": self._emojize,}[
+                self._action_name
+            ](token)
             return True
         return False
 

@@ -139,7 +139,7 @@ def test_text_parser_when_there_is_emoji():
     assert parse_text(
         text="July @AlraashidS @shalsaeedi_ @asaldhferi @Fa3ix_ @iiBeba_ @_hajaraljble ❤️",
         mentions='remove',
-        emojis='remove'
+        emojis='remove',
     ).value == u'july'
 
 

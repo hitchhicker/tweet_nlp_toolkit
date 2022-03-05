@@ -1,8 +1,10 @@
 # pylint: disable=unused-import,missing-docstring
-import os
-from os.path import dirname, abspath
-
 from .__version__ import __title__, __description__, __url__, __version__
+from .prep.text_parser import parse_text
+from .prep.text_prep import prep, prep_file
 
-ROOT_PATH = dirname(dirname(abspath(__file__)))
-DEFAULT_DATA_ROOT_PATH = os.path.join(os.environ["HOME"], "data")
+__all__ = [
+    "parse_text",
+    "prep",
+    "prep_file",
+]

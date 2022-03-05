@@ -110,22 +110,6 @@ def test_token_do_action_demojize():
     assert token.value == ":anxious_face_with_sweat:"
 
 
-def test_token_do_action_with_unknown_flag_str():
-    token = Token("😰")
-    with pytest.raises(ValueError):
-        token.do_action(Action(action_name='demojize', action_condition='is_ijome', replace=EMOJI_TAG))
-
-
-def test_token_do_action_with_unknown_action():
-    token = Token("😰")
-    with pytest.raises(ValueError):
-        token.do_action(Action(action_name='ezijomed', action_condition='is_emoji', replace=EMOJI_TAG))
-
-    token = Token("😰")
-    with pytest.raises(ValueError):
-        token.do_action(Action(action_name='demojize', action_condition='is_hashtag', replace=EMOJI_TAG))
-
-
 def test_token___str__():
     token = Token('test')
     assert str(token) == 'test'

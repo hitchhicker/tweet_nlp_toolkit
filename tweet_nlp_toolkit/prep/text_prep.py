@@ -52,7 +52,7 @@ def prep_file(filename, outfile, **kwargs):
     """
     with codecs.open(filename, encoding="unicode_escape") as int_f:
         with open(outfile, "w", encoding="utf-8") as out_f:
-            for line in int_f.readlines():
+            for line in int_f:
                 out_f.write(prep(line, encoding="utf-8", **kwargs) + "\n")
 
 

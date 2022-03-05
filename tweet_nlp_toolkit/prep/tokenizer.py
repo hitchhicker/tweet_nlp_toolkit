@@ -94,7 +94,6 @@ class SocialMediaTokenizer:
         self.tokenizer = re.compile(rf'{"|".join(self.token_pipeline)}', re.UNICODE)
 
     def tokenize(self, text: str) -> List[str]:
-        text = text.encode("utf-16", "surrogatepass").decode("utf-16", "replace")
         escaped = html.unescape(text)  # &pound;100 -> £100
         return self.tokenizer.findall(escaped)
 

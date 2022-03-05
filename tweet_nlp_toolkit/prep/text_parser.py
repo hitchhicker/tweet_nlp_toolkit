@@ -121,7 +121,7 @@ def parse_text(
     encoding: str = "utf-8",
     remove_unencodable_char: bool = False,
     to_lower: bool = True,
-    strip_accents: bool = True,
+    strip_accents: bool = False,
     reduce_len: bool = False,
     filters: Optional[Set[str]] = None,
     emojis: Optional[str] = None,

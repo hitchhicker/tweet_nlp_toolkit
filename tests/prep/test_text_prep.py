@@ -11,7 +11,7 @@ from tweet_nlp_toolkit.prep.text_prep import prep, replace_contractions, prep_fi
                          [("C?est parce qu?elle a bénéficié", "c'est parce qu'elle a beneficie")
                           ])
 def test_prep(text, expected):
-    assert prep(text) == expected
+    assert prep(text, strip_accents=True) == expected
 
 
 @pytest.mark.parametrize(("text", "expected"),

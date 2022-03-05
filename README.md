@@ -2,6 +2,18 @@
 
 # tweet_nlp_toolkit
 Tweet NLP toolkit
+
+It can handle:
+ - mentions
+ - hashtags
+ - emojis
+ - emoticons
+ - emails
+ - HTML entities
+ - digits
+ - urls
+ - punctuations
+ - customized words to filter
 ## Installation
 ```
 python3 -m venv .env
@@ -12,7 +24,7 @@ pip install tweet_nlp_toolkit
 ## Usage
 ### Text Parsing
 ```python
->>> from tweet_nlp_toolkit.prep.text_parser import parse_text
+>>> from tweet_nlp_toolkit import parse_text
 >>> text = parse_text("123 @hello #world www.url.com 😰 :) abc@gmail.com")
 >>> text.tokens
 ['123', '@hello', '#world', 'www.url.com', '😰', ':)', 'abc@gmail.com']
@@ -33,7 +45,7 @@ pip install tweet_nlp_toolkit
 ```
 ### Tagging entities
 ```python
->>> from tweet_nlp_toolkit.prep.text_parser import parse_text
+>>> from tweet_nlp_toolkit import parse_text
 >>> parse_text(
 ...     "123 @hello #world www.url.com 😰 :) abc@gmail.com",
 ...     emojis="tag",
@@ -45,7 +57,7 @@ pip install tweet_nlp_toolkit
 
 ### Preprocessing
 ```python
->>> from tweet_nlp_toolkit.prep.text_prep import prep
+>>> from tweet_nlp_toolkit import prep
 >>> prep(
         "123 @hello #world www.url.com 😰 :) abc@gmail.com",
         emojis="demojize",
@@ -57,7 +69,14 @@ pip install tweet_nlp_toolkit
 ... )
 >>> '<DIGIT> :anxious_face_with_sweat: :)'
 ```
+
+```
+>>> from tweet_nlp_toolkit import prep_file
+>>> prep_file("input.txt", "output.txt")
+```
 ### More
+`parse_text`, `prep` and `prep_file` share the same parameters, `parse_text` returns an instance of `ParsedText`,
+`prep` returns the preprocessed string and `prep_file` preprocesses the file.
 ```
 Parameters
 ----------
@@ -77,7 +96,7 @@ to_lower: bool
     Default True
 strip_accents: bool
     Whether to remove accents from latin characters.
-    Default True
+    Default False
 reduce_len: bool
     Whether to remove repeated character sequences.
     Default False
@@ -156,6 +175,3 @@ stop_words
         - "remove"
     Default None
 ```
-
-`parse_text` and `prep` share the same parameters, `parse_text` returns a instance of `ParsedText`,
-`prep` returns the preprocessed string.
