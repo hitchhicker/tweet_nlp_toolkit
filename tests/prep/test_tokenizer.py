@@ -1,23 +1,8 @@
 import pytest
 
 from tweet_nlp_toolkit.prep.token import Token, WeiboToken
-from tweet_nlp_toolkit.prep.tokenizer import TwitterTokenizer, white_space_tokenize, \
-    SocialMediaTokenizer, WhiteSpaceTokenizer, social_media_tokenize, Detokenizer, chinese_tokenize, japanese_tokenize, \
+from tweet_nlp_toolkit.prep.tokenizer import white_space_tokenize, tweet_tokenize, Detokenizer, chinese_tokenize, japanese_tokenize, \
     _is_chinese, _is_japanese, thai_tokenize, _is_thai, weibo_tokenize
-
-
-def test_default_init_tokenizer():
-    assert type(TwitterTokenizer()._tknzr) == SocialMediaTokenizer
-
-
-def test_nltk_init_tokenizer():
-    assert type(TwitterTokenizer(tokenizer='naive')._tknzr) == WhiteSpaceTokenizer
-    assert type(TwitterTokenizer(tokenizer='social_media')._tknzr) == SocialMediaTokenizer
-
-
-def test_error_init_tokenizer():
-    with pytest.raises(NotImplementedError):
-        _ = TwitterTokenizer(tokenizer='xxx')
 
 
 @pytest.mark.parametrize(("text", "expected_tokens"),
@@ -33,7 +18,7 @@ def test_white_space_tokenize(text, expected_tokens):
                           (" คลับพาราไดซ์, จะถูกต้อง. วันสุดท้ายทุกสิ่งที่ดูเหมือนว่าตกลง",
                            ["คลับพาราไดซ์", ",", "จะถูกต้อง", ".", "วันสุดท้ายทุกสิ่งที่ดูเหมือนว่าตกลง"])])
 def test_social_media_tokenize(text, expected_tokens):
-    tokens = social_media_tokenize(text)
+    tokens = tweet_tokenize(text)
     assert tokens == expected_tokens
 
 
@@ -50,7 +35,7 @@ def test_detokenizer():
          'Mazerolle']) == text
 
     # check that the tokenization is reversible by the detokenization
-    assert fr_detok.detokenize(list(map(str, social_media_tokenize(text)))) == text
+    assert fr_detok.detokenize(list(map(str, tweet_tokenize(text)))) == text
 
 
 @pytest.mark.parametrize(("text", "expected_tokens"),
@@ -136,7 +121,7 @@ def test_weibo_tokenize_with_segment_hashtag_as_true(text, expected):
 
 
 def test_social_media_tokenize_return_type():
-    assert type(social_media_tokenize("unit test")[0]) == Token
+    assert type(tweet_tokenize("unit test")[0]) == Token
 
 
 def test_white_space_tokenize_return_type():

@@ -7,6 +7,8 @@ and
 """
 import re
 
+from tweet_nlp_toolkit.constants import _REST_EMOTICONS
+
 HASHTAG = r"\#\b[\w\-\_]+\b"
 WEIBO_HASHTAG = r"\#[^#]+#"
 NOT_A_HASHTAG = r"\#\b[\d]+\b"
@@ -41,7 +43,6 @@ _rtl_emoticon = [
 _LTR_FACE = "".join(_ltr_emoticon)
 _RTL_FACE = "".join(_rtl_emoticon)
 _EASTERN_EMOTICONS = r"(?<![\w])(?:(?:[<>]?[\^;][\W_m][\;^][;<>]?)|(?:[^\s()]?m?[\(][\W_oTOJ]{1,3}[\s]?[\W_oTOJ]{1,3}[)]m?[^\s()]?)|(?:\*?[v>\-\/\\][o0O\_\.][v\-<\/\\]\*?)|(?:[oO0>][\-_\/oO\.\\]{1,2}[oO0>])|(?:\^\^))(?![\w])"  # pylint: disable=line-too-long
-_REST_EMOTICONS = r"(?<![A-Za-z0-9/()])(?:(?:\^5)|(?:\<3))(?![[A-Za-z0-9/()])"
 EMOTICONS = "|".join([_LTR_FACE, _RTL_FACE, _EASTERN_EMOTICONS, _REST_EMOTICONS])
 EMAIL = r"(?:^|(?<=[^\w@.)]))(?:[\w+-](?:\.(?!\.))?)*?[\w+-]@(?:\w-?)*?\w+(?:\.(?:[a-z]{2,})){1,3}(?:$|(?=\b))"
 URL = r"(?:https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})"
@@ -58,3 +59,27 @@ QUOTES_PAT = re.compile("[“”«»]")
 APOSTROPHES_PAT = re.compile("[‘’]")
 URL_PAT = re.compile(URL)
 RT_MENTION_PAT = re.compile(r"^RT " + MENTION + ": ")
+
+# join all together
+
+TOKEN_PIPELINE = r"|".join(
+    [URL, EMAIL, MENTION, HASHTAG, EMOTICONS, HTML_TAG, ASCII_ARROW, DIGIT, ELLIPSIS_DOTS, EMOJI_STRING, WORD, r"\S"]
+)
+_TOKEN_PIPELINE = [
+    URL,
+    EMAIL,
+    MENTION,
+    HASHTAG,
+    EMOTICONS,
+    HTML_TAG,
+    ASCII_ARROW,
+    DIGIT,
+    ELLIPSIS_DOTS,
+    EMOJI_STRING,
+    WORD,
+    r"\S",
+]
+TWEET_TOKENIZE = re.compile(rf'{"|".join(_TOKEN_PIPELINE)}', re.UNICODE)
+_TOKEN_PIPELINE_COPY = _TOKEN_PIPELINE.copy()
+_TOKEN_PIPELINE_COPY[_TOKEN_PIPELINE_COPY.index(HASHTAG)] = WEIBO_HASHTAG
+WEIBO_TOKENIZE = re.compile(rf'{"|".join(_TOKEN_PIPELINE_COPY)}', re.UNICODE)

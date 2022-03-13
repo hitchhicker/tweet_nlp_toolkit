@@ -1,11 +1,12 @@
 """
 Text parser.
 """
+import html
 import re
 from typing import List, Optional, Callable, Set
 
 from tweet_nlp_toolkit.constants import UNENCODABLE_CHAR
-from tweet_nlp_toolkit.prep.tokenizer import social_media_tokenize
+from tweet_nlp_toolkit.prep.tokenizer import tweet_tokenize
 from tweet_nlp_toolkit.prep.token import Token, Action
 from tweet_nlp_toolkit.utils import strip_accents_unicode, remove_variation_selectors
 
@@ -117,7 +118,7 @@ class ParsedText:
 
 def parse_text(
     text: str,
-    tokenizer: Callable[[str], List[Token]] = social_media_tokenize,
+    tokenizer: Callable[[str], List[Token]] = tweet_tokenize,
     encoding: str = "utf-8",
     remove_unencodable_char: bool = False,
     to_lower: bool = True,
@@ -278,6 +279,8 @@ def parse_text(
     text = re.sub(r"([^ ])(https?://)", r"\1 \2", text)
 
     text = re.sub(r"(\w+)\?(\w+)", r"\g<1>'\g<2>", text)  # c?est -> c'est
+
+    text = html.unescape(text)  # &pound;100 -> £100
     tokens = [tk for tk in tokenizer(text) if tk not in filters]
     parsed_text = ParsedText(tokens=tokens)
     parsed_text.process(

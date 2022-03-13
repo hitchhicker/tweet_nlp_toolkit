@@ -1,11 +1,14 @@
 """
 Global constants.
 """
+from itertools import chain
+
 import pycld2
 
 # The path for the statistics data
 
 # Tags for different elements in the text preprocessing
+
 EMOJI_TAG = "<EMOJI>"
 MENTION_TAG = "<MENTION>"
 HASHTAG_TAG = "<HASHTAG>"
@@ -392,3 +395,25 @@ SUPPORTED_LANGUAGES = [
 
 # PYCLD2 language set
 PYCLD2_LANGUAGE_CODES = frozenset(code for _, code in pycld2.LANGUAGES)
+_REST_EMOTICONS = r"(?<![A-Za-z0-9/()])(?:(?:\^5)|(?:\<3))(?![[A-Za-z0-9/()])"
+CJK = frozenset(
+    chain(
+        range(0x4E00, 0xA000),
+        range(0x3400, 0x4DC0),
+        range(0x20000, 0x2A6E0),
+        range(0x2A700, 0x2B740),
+        range(0x2B740, 0x2B820),
+        range(0xF900, 0xFB00),
+        range(0x2F800, 0x2FA20),
+        range(0x9FA6, 0x9FCC),
+    )
+)
+JP_CHARACTERS = frozenset(
+    chain(
+        range(0x3000, 0x3040),  # Japanese-style punctuation
+        range(0x3040, 0x30A0),  # Hiragana
+        range(0x30A0, 0x3100),  # Katakana
+        range(0xFF00, 0xFFF0),
+    )
+)  # Full-width roman characters and half-width katakana
+THAI_CHARACTERS = frozenset(range(0x0E00, 0x0E80))

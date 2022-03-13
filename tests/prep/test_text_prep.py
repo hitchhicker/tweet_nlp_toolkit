@@ -85,7 +85,7 @@ def test_emoji_none(text, expected):
 # Test encoding treatment
 
 @pytest.mark.parametrize(("text", "expected"),
-                         [("doesn\u2019t", "doesn ’ t")  # modified by Bokai
+                         [("doesn\u2019t", "doesn ’ t")
                           ])
 def test_encoding(text, expected):
     assert prep(text, remove_unencodable_char=False) == expected
