@@ -370,27 +370,15 @@ VARIATION_SELECTORS = [
     "\ufe0f",
 ]
 
-# ngram separator, used in the statistic representation for the word segmentation
-NGRAM_SEP = "_"
-# ngrams statistics folder structure template
-NGRAMS_SOURCE = "NGRAMS-WIKI"
-NGRAMS_VERSION = "v2"
-
 # two letters language codes (ISO 639-1)
 # more details: https://en.wikipedia.org/wiki/ISO_639-1
 JAPANESE_LANGUAGE_CODE = "ja"
 CHINESE_LANGUAGE_CODE = "zh"
-ENGLISH_LANGUAGE_CODE = "en"
-FRENCH_LANGUAGE_CODE = "fr"
 THAI_LANGUAGE_CODE = "th"
-ARABIC_LANGUAGE_CODE = "ar"
 SUPPORTED_LANGUAGES = [
     JAPANESE_LANGUAGE_CODE,
     CHINESE_LANGUAGE_CODE,
-    ENGLISH_LANGUAGE_CODE,
-    FRENCH_LANGUAGE_CODE,
     THAI_LANGUAGE_CODE,
-    ARABIC_LANGUAGE_CODE,
 ]
 
 # PYCLD2 language set
