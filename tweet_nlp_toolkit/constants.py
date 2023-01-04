@@ -383,7 +383,6 @@ SUPPORTED_LANGUAGES = [
 
 # PYCLD2 language set
 PYCLD2_LANGUAGE_CODES = frozenset(code for _, code in pycld2.LANGUAGES)
-_REST_EMOTICONS = r"(?<![A-Za-z0-9/()])(?:(?:\^5)|(?:\<3))(?![[A-Za-z0-9/()])"
 CJK = frozenset(
     chain(
         range(0x4E00, 0xA000),

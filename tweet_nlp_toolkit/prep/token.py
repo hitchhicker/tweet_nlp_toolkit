@@ -19,15 +19,15 @@ from tweet_nlp_toolkit.constants import (
     UNKNOWN_LANGUAGE,
 )
 from tweet_nlp_toolkit.prep.regexes import (
-    NOT_A_HASHTAG,
-    HASHTAG,
-    MENTION,
-    EMOTICONS,
-    EMAIL,
-    DIGIT,
-    HTML_TAG,
-    URL,
     WEIBO_HASHTAG,
+    NOT_A_HASHTAG_PATTERN,
+    HASHTAG_PATTERN,
+    URL_PATTERN,
+    MENTION_PATTERN,
+    EMOTICONS_PATTERN,
+    DIGIT_PATTERN,
+    EMAIL_PATTERN,
+    HTML_TAG_PATTERN,
 )
 from tweet_nlp_toolkit.utils import get_stop_words
 
@@ -69,7 +69,7 @@ class Token:
         self._value[key] = value
 
     def _check_flag(self, pattern):
-        return re.match(re.compile("^" + pattern + "$"), self._value) is not None
+        return re.match(pattern, self._value) is not None
 
     def do_action(self, action):
         return action.apply(self)
@@ -95,19 +95,19 @@ class Token:
 
     @property
     def is_hashtag(self):
-        return not self._check_flag(pattern=NOT_A_HASHTAG) and self._check_flag(pattern=HASHTAG)
+        return not self._check_flag(pattern=NOT_A_HASHTAG_PATTERN) and self._check_flag(pattern=HASHTAG_PATTERN)
 
     @property
     def is_url(self):
-        return self._check_flag(pattern=URL)
+        return self._check_flag(pattern=URL_PATTERN)
 
     @property
     def is_mention(self):
-        return self._check_flag(pattern=MENTION)
+        return self._check_flag(pattern=MENTION_PATTERN)
 
     @property
     def is_emoticon(self):
-        return self._check_flag(pattern=EMOTICONS)
+        return self._check_flag(pattern=EMOTICONS_PATTERN)
 
     @property
     def is_emoji(self):
@@ -116,7 +116,7 @@ class Token:
 
     @property
     def is_digit(self):
-        return self._check_flag(pattern=DIGIT)
+        return self._check_flag(pattern=DIGIT_PATTERN)
 
     @property
     def is_punct(self):
@@ -124,7 +124,7 @@ class Token:
 
     @property
     def is_email(self):
-        return self._check_flag(pattern=EMAIL)
+        return self._check_flag(pattern=EMAIL_PATTERN)
 
     @property
     def is_stop_word(self):
@@ -134,7 +134,7 @@ class Token:
 
     @property
     def is_html_tag(self):
-        return self._check_flag(pattern=HTML_TAG)
+        return self._check_flag(pattern=HTML_TAG_PATTERN)
 
     @staticmethod
     # The following function is copied from https://github.com/google-research/bert/blob/master/tokenization.py#L386

@@ -9,7 +9,6 @@ from tweet_nlp_toolkit.prep.regexes import HASHTAG
                          [("#emnlp2019", True),
                           ("#prédéfinie", True),  # non ascii
                           ("#Филмскисусрети", True),
-                          # ("#כן_אבל", True),  # RTL TODO
                           ("#정국생일ᄎᄏ", True),
                           ("#123", False)  # a hashtag can't be just a seq of numbers
                           ])

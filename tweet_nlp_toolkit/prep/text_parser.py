@@ -6,6 +6,7 @@ import re
 from typing import List, Optional, Callable, Set
 
 from tweet_nlp_toolkit.constants import UNENCODABLE_CHAR
+from tweet_nlp_toolkit.prep.regexes import LENGTHENING_PATTERN
 from tweet_nlp_toolkit.prep.tokenizer import tweet_tokenize
 from tweet_nlp_toolkit.prep.token import Token, Action
 from tweet_nlp_toolkit.utils import strip_accents_unicode, remove_variation_selectors
@@ -305,5 +306,4 @@ def reduce_lengthening(text):
     of length 3.
     # This function is copy from nltk: https://www.nltk.org/_modules/nltk/tokenize/casual.html#TweetTokenizer
     """
-    pattern = re.compile(r"(.)\1{2,}")
-    return pattern.sub(r"\1\1\1", text)
+    return LENGTHENING_PATTERN.sub(r"\1\1\1", text)

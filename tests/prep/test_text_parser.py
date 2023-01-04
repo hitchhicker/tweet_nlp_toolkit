@@ -51,7 +51,6 @@ def test_text_parser__repr__(mocked_text_parser):
 
 def test_text_parser__len__(mocked_text_parser):
     assert len(mocked_text_parser) == 22
-    assert len(mocked_text_parser) == 22
 
 
 def test_text_parser__getitem__(mocked_text_parser):
@@ -63,11 +62,12 @@ def test_text_parser__setitem__(mocked_text_parser):
     assert mocked_text_parser[1].value == 'cest'
 
 
-def test_text_parser_post_process(mocked_text_parser):
-    mocked_text_parser.tokens[0].value = ' <p>'
-    assert mocked_text_parser.value == r" <p> c'est </p> @nlp https://www.google.fr cant wait 😰 for the new season of tutu@gmail.com \(^o^)/ 123 ! ! #davidlynch #tvseries #tvseries :))))"
-    mocked_text_parser.post_process()
-    assert mocked_text_parser.value == r"<p> c'est </p> @nlp https://www.google.fr cant wait 😰 for the new season of tutu@gmail.com \(^o^)/ 123 ! ! #davidlynch #tvseries #tvseries :))))"
+def test_text_parser_post_process():
+    parsed_text = ParsedText(tokens=[Token(' <p>'), Token('c\'est')])
+
+    assert parsed_text.value == " <p> c'est"
+    parsed_text.post_process()
+    assert parsed_text.value == "<p> c'est"
 
 
 @pytest.mark.parametrize(("kwargs", "expected_value"),

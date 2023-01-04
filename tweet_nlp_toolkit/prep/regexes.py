@@ -7,14 +7,20 @@ and
 """
 import re
 
-from tweet_nlp_toolkit.constants import _REST_EMOTICONS
-
 HASHTAG = r"\#\b[\w\-\_]+\b"
+HASHTAG_PATTERN = re.compile(r"^\#\b[\w\-\_]+\b$")
+
 WEIBO_HASHTAG = r"\#[^#]+#"
+WEIBO_HASHTAG_PATTERN = re.compile(r"^\#[^#]+#$")
+
 NOT_A_HASHTAG = r"\#\b[\d]+\b"
+NOT_A_HASHTAG_PATTERN = re.compile(r"^\#\b[\d]+\b$")
+
+
 # Thai vowels range from \u0e00 to \u0e7f, reference: https://www.compart.com/en/unicode/scripts/Thai
 WORD = r"(?:[^\W\d|(?:_](?:[^\W\d_]|['\-_]|[\u0e00-\u0e7f])+[^\W\d_]?)[^\W\d\w_]?"
 MENTION = r"\@\w+"
+MENTION_PATTERN = re.compile(r"^\@\w+$")
 
 _ltr_emoticon = [
     # optional hat
@@ -43,13 +49,28 @@ _rtl_emoticon = [
 _LTR_FACE = "".join(_ltr_emoticon)
 _RTL_FACE = "".join(_rtl_emoticon)
 _EASTERN_EMOTICONS = r"(?<![\w])(?:(?:[<>]?[\^;][\W_m][\;^][;<>]?)|(?:[^\s()]?m?[\(][\W_oTOJ]{1,3}[\s]?[\W_oTOJ]{1,3}[)]m?[^\s()]?)|(?:\*?[v>\-\/\\][o0O\_\.][v\-<\/\\]\*?)|(?:[oO0>][\-_\/oO\.\\]{1,2}[oO0>])|(?:\^\^))(?![\w])"  # pylint: disable=line-too-long
+_REST_EMOTICONS = r"(?<![A-Za-z0-9/()])(?:(?:\^5)|(?:\<3))(?![[A-Za-z0-9/()])"
 EMOTICONS = "|".join([_LTR_FACE, _RTL_FACE, _EASTERN_EMOTICONS, _REST_EMOTICONS])
+EMOTICONS_PATTERN = re.compile(rf"^{EMOTICONS}$")
+
 EMAIL = r"(?:^|(?<=[^\w@.)]))(?:[\w+-](?:\.(?!\.))?)*?[\w+-]@(?:\w-?)*?\w+(?:\.(?:[a-z]{2,})){1,3}(?:$|(?=\b))"
+EMAIL_PATTERN = re.compile(
+    r"^(?:^|(?<=[^\w@.)]))(?:[\w+-](?:\.(?!\.))?)*?[\w+-]@(?:\w-?)*?\w+(?:\.(?:[a-z]{2,})){1,3}(?:$|(?=\b))$"
+)
+
 URL = r"(?:https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})"
+URL_PATTERN = re.compile(r"^(?:https?:\/\/(?:www\.|(?!www))[^\s\.]+\.[^\s]{2,}|www\.[^\s]+\.[^\s]{2,})$")
+
 CAMEL_SPLIT = r"((?<=[a-z])[A-Z]|(?<!^)[A-Z](?=[a-z])|[0-9]+|(?<=[0-9\\-\\_])[A-Za-z]|[\\-\\_])"
-HTML_TAG = r"""<[^>\s]+>"""
+
+HTML_TAG = r"<[^>\s]+>"
+HTML_TAG_PATTERN = re.compile(r"^<[^>\s]+>$")
+
 ASCII_ARROW = r"""[\-]+>|<[\-]+"""
+
 DIGIT = r"(?:[+\-]?\d+[,/.:-]?\d*[+\-]?)"
+DIGIT_PATTERN = re.compile(r"^(?:[+\-]?\d+[,/.:-]?\d*[+\-]?)$")
+
 ELLIPSIS_DOTS = r"(?:\.(?:\s*\.){1,})"
 EMOJI_STRING = r"(?::\w+:)"
 
@@ -62,9 +83,6 @@ RT_MENTION_PAT = re.compile(r"^RT " + MENTION + ": ")
 
 # join all together
 
-TOKEN_PIPELINE = r"|".join(
-    [URL, EMAIL, MENTION, HASHTAG, EMOTICONS, HTML_TAG, ASCII_ARROW, DIGIT, ELLIPSIS_DOTS, EMOJI_STRING, WORD, r"\S"]
-)
 _TOKEN_PIPELINE = [
     URL,
     EMAIL,
@@ -83,3 +101,5 @@ TWEET_TOKENIZE = re.compile(rf'{"|".join(_TOKEN_PIPELINE)}', re.UNICODE)
 _TOKEN_PIPELINE_COPY = _TOKEN_PIPELINE.copy()
 _TOKEN_PIPELINE_COPY[_TOKEN_PIPELINE_COPY.index(HASHTAG)] = WEIBO_HASHTAG
 WEIBO_TOKENIZE = re.compile(rf'{"|".join(_TOKEN_PIPELINE_COPY)}', re.UNICODE)
+
+LENGTHENING_PATTERN = re.compile(r"(.)\1{2,}")
