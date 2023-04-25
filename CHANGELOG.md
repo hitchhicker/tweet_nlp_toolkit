@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.5] - 2023-01-05
+### Changed
+"#" is kept for hashtags
+### Fixed
+- The example in the parse_text function
+
 ## [1.0.4] - 2023-01-05
 ### Fixed
 - Convert every regex pattern to constant, it results in ~10% speed up
