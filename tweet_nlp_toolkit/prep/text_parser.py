@@ -90,7 +90,7 @@ class ParsedText:
 
     @property
     def hashtags(self) -> List[str]:
-        return list({token.value.strip("#") for token in self._tokens if token.is_hashtag})
+        return list({token.value for token in self._tokens if token.is_hashtag})
 
     @property
     def mentions(self) -> List[str]:
@@ -143,7 +143,7 @@ def parse_text(
     Example:
         In [1]: from tweet_nlp_toolkit.prep.text_parser import parse_text
 
-        In [2]: text = parse_text("123 @hello #world www.url.com 😰 :) abc@gmail.com")
+        In [2]: text = parse_text("123 @hello #world www.url.com 😰 :) abc@gmail.com", emails="remove", emojis="remove", emoticons="remove", urls="remove", digits="remove")  # noqa
 
         In [3]: text.tokens
         Out[3]: ['@hello', '#world']

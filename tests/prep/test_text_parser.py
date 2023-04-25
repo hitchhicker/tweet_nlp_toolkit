@@ -108,7 +108,7 @@ def test_text_parser_process(mocked_text_parser, kwargs, expected_value):
 
 
 def test_text_parser_hashtags(mocked_text_parser):
-    assert sorted(mocked_text_parser.hashtags) == sorted(['davidlynch', 'tvseries'])
+    assert sorted(mocked_text_parser.hashtags) == sorted(['#davidlynch', '#tvseries'])
 
 
 def test_text_parser_mentions(mocked_text_parser):
@@ -192,4 +192,4 @@ def test_text_parser_with_weibo_token_cls(text, expected):
         mentions='tag'
     )
     assert parsed_text.tokens == expected.tokens
-    assert parsed_text.hashtags == ['改个电话号码']
+    assert parsed_text.hashtags == ['#改个电话号码#']
