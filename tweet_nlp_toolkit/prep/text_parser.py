@@ -195,43 +195,43 @@ def parse_text(
         How to handle hashtags.
         Options:
             - "remove": delete all hashtags
-            - "tag"replaces the hashtag by a tag <HASHTAG>
+            - "tag": replaces the hashtag by a tag <HASHTAG>
         Default None
     urls: Optional[str]
         How to handle urls.
         Options:
             - "remove": delete all urls
-            - "tag"replaces the url by a tag <URL>
+            - "tag": replaces the url by a tag <URL>
         Default None
     mentions: Optional[str]
         How to handle mentions.
         Options:
             - "remove": delete all mentions
-            - "tag"replaces the mention by a tag <MENTION>
+            - "tag": replaces the mention by a tag <MENTION>
         Default None
     digits: Optional[str]
         How to handle digits.
         Options:
             - "remove": delete all digits
-            - "tag"replaces the digit by a tag <DIGIT>
+            - "tag": replaces the digit by a tag <DIGIT>
         Default None
     emoticons: Optional[str]
         How to handle emoticons.
         Options:
             - "remove": delete all emoticons
-            - "tag"replaces the emoticon by a tag <EMOTICON>
+            - "tag": replaces the emoticon by a tag <EMOTICON>
         Default None
     puncts: Optional[str]
         How to handle puncts.
         Options:
             - "remove": delete all puncts
-            - "tag"replaces the puncts by a tag <PUNCT>
+            - "tag": replaces the puncts by a tag <PUNCT>
         Default None
     emails: Optional[str]
-        How to handle puncts.
+        How to handle emails.
         Options:
             - "remove": delete all emails
-            - "tag"replaces the emails by a tag <EMAIL>
+            - "tag": replaces the emails by a tag <EMAIL>
         Default None
     html_tags: Optional[str]
         How to handle HTML tags like <div>.
